@@ -64,3 +64,37 @@
   change takes effect immediately with no code changes needed
 
 ---
+
+## Session 3 — Collaboration Evaluation Refinements
+
+**Date:** 2026-05-28
+
+**User input:**
+- Collaboration evaluator was too strict about requiring defined roles
+- Brief organic discussion phases (≤5 minutes) are valid and desirable
+- Example: a quick card sort discussion before a larger structured activity
+  should not require individual role assignments
+- The tool should evaluate the activity as a whole, not penalize any phase
+  that uses organic discussion
+
+**Fix applied:**
+- Updated domain-primer.md to explicitly allow organic discussion phases
+- Clarified that only activities with NO structural mechanism at all should
+  be penalized for collaboration
+
+---
+
+## Session 4 — Evaluation Rubric Integration
+
+**Date:** 2026-05-28
+
+**Issue identified:**
+- evaluation.md contained the scoring rubric but was not being read by the code
+- Agents were using general judgment rather than the defined 1-5 rubric
+
+**Fix applied:**
+- Added load_evaluation_rubric() function to agents.py
+- All four evaluator agents now receive the scoring rubric in their system prompt
+- Scores should now be more consistent and aligned with defined criteria
+
+---

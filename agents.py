@@ -24,6 +24,11 @@ def load_domain_primer() -> str:
     with open("domain-primer.md", "r") as f:
         return f.read()
 
+def load_evaluation_rubric() -> str:
+    """Load the evaluation rubric for scoring guidance."""
+    with open("evaluation.md", "r") as f:
+        return f.read()
+
 
 def generate_activity(topic: str, constraints: str, resources: str) -> str:
     """Generate a new activity using the Activity Generator agent (Sonnet)."""
@@ -57,6 +62,7 @@ def evaluate_rigor(activity_text: str) -> str:
     message = client.messages.create(
         model=OPUS,
         max_tokens=1000,
+        rubric = load_evaluation_rubric()
         system=f"You are a rigorous mathematics education reviewer. "
                f"Here is your domain knowledge:\n\n{domain_primer}",
         messages=[
@@ -77,6 +83,7 @@ def evaluate_collaboration(activity_text: str) -> str:
     message = client.messages.create(
         model=HAIKU,
         max_tokens=1000,
+        rubric = load_evaluation_rubric()
         system=f"You are a collaborative learning expert. "
                f"Here is your domain knowledge:\n\n{domain_primer}",
         messages=[
@@ -96,6 +103,7 @@ def evaluate_timing(activity_text: str) -> str:
     message = client.messages.create(
         model=HAIKU,
         max_tokens=500,
+        rubric = load_evaluation_rubric()
         system="You are an expert at estimating how long classroom activities take.",
         messages=[
             {"role": "user", "content": prompt}
@@ -114,6 +122,7 @@ def evaluate_resources(activity_text: str) -> str:
     message = client.messages.create(
         model=SONNET,
         max_tokens=500,
+        rubric = load_evaluation_rubric()
         system="You are an expert in creative use of physical classroom resources.",
         messages=[
             {"role": "user", "content": prompt}
