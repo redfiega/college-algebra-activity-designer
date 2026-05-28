@@ -141,6 +141,12 @@ with tab3:
             activity_id, title, topic, created_at = activity
             with st.expander(f"{title} — {topic}"):
                 st.write(f"**Saved on:** {created_at[:10]}")
-                if st.button(f"View Full Activity", key=f"view_{activity_id}"):
+                col1, col2 = st.columns([1, 4])
+                with col1:
+                    if st.button("View", key=f"view_{activity_id}"):
+                        st.session_state[f"show_{activity_id}"] = True
+                if st.session_state.get(f"show_{activity_id}", False):
                     full = get_activity_by_id(activity_id)
                     st.markdown(full[3])
+                    if st.button("Hide", key=f"hide_{activity_id}"):
+                        st.session_state[f"show_{activity_id}"] = False
