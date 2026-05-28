@@ -49,7 +49,7 @@ def generate_activity(topic: str, constraints: str, resources: str) -> str:
 
     message = client.messages.create(
         model=SONNET,
-        max_tokens=2000,
+        max_tokens=3000,
         system=(f"You are an expert mathematics education activity designer. "
                 f"Here is your domain knowledge:\n\n{domain_primer}"),
         messages=[
