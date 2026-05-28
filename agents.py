@@ -130,7 +130,15 @@ def synthesize_feedback(activity_text: str, rigor: str, collaboration: str,
         max_tokens=1500,
         system="You are a senior mathematics education reviewer. Your job is to "
                "synthesize evaluation reports into clear, actionable feedback for "
-               "a university instructor.",
+               "a university instructor. "
+               "Use these exact passing thresholds when deciding APPROVED or NEEDS REVISION:\n"
+               "- Mathematical Rigor: must score 4 or higher\n"
+               "- Accessibility: must score 4 or higher\n"
+               "- Structural Collaboration: must score 4 or higher\n"
+               "- Timing: must score 3 or higher\n"
+               "- Resource Use: must score 3 or higher\n"
+               "An activity is APPROVED only if ALL dimensions meet their threshold. "
+               "A timing score of 3 is a PASS, not a failure.",
         messages=[
             {"role": "user", "content": f"""
 You have received four evaluation reports for a college algebra activity.
