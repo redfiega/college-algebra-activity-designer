@@ -93,6 +93,9 @@ outcome used to verify the system is working correctly.
 
 > Append results here each time the evaluation harness is run.
 
-| Date | File Tested | Rigor | Access. | Collab. | Timing | Resources | Pass/Fail |
+| Date | File Tested | Rigor | Access. | Collab. | Timing | Resources | Approved/Revise |
 |------|-------------|-------|---------|---------|--------|-----------|-----------|
-| —    | —           | —     | —       | —       | —      | —         | —         |
+| 5/28/26 | activity-good.md | 5 | 5 |5  | 5 | 5  | Approved |
+| 5/28/26 | activity-math-error.md | 2 | 4 | 2 | 5 | 3 | Needs Revision |
+| 5/28/26 | activity-no-collab.md | 4 | 4 | 1 | 4 | 2 | Needs Revision |
+| 5/28/26 | instructor created test (Sample-Activity-Rationals) | 5 | 4 | 5 | 4 | 5 | Approved |
