@@ -44,3 +44,23 @@
 ---
 
 *Append new entries below as the project develops.*
+
+## Session 2 — Evaluation Refinements
+
+**Date:** 2026-05-28
+
+**User input:**
+- Rigor evaluator was too restrictive in two areas:
+  1. Flagged functions with no horizontal asymptote as needing replacement
+  2. Flagged rational functions that simplify to linear functions as invalid
+- Both of these are intentional and desirable for student learning
+- Students should recognize when no horizontal asymptote exists and may be
+  introduced to the vocabulary "oblique asymptote" without computing it
+- Rational functions that simplify to linear functions are excellent edge cases
+
+**Fix applied:**
+- Updated domain-primer.md to explicitly allow both cases
+- Rigor evaluator reads domain-primer.md before every evaluation, so this
+  change takes effect immediately with no code changes needed
+
+---

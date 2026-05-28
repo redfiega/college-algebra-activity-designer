@@ -61,10 +61,19 @@ polynomials and Q(x) ≠ 0.
 - Notation: write as an ordered pair (0, b)
 
 ### What is OUT OF SCOPE:
-- Oblique (slant) asymptotes — requires polynomial long division, not covered
+- Computing oblique (slant) asymptotes — polynomial long division is not covered
 - Graphing the function from the features
 - Polynomial long division of any kind
 - End behavior analysis beyond horizontal asymptotes
+
+### Important Clarifications for Evaluation:
+- Functions where the numerator degree exceeds the denominator degree ARE valid
+  and desirable. Students should recognize there is no horizontal asymptote and
+  may be introduced to the vocabulary "oblique asymptote" without computing it.
+  Do NOT flag these functions as out of scope or inappropriate.
+- Rational functions that simplify to linear functions are excellent edge cases
+  and ARE valid for activities. Do NOT flag these as needing replacement.
+  They help students understand the relationship between holes and simplification.
 
 ---
 
