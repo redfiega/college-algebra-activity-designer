@@ -1,10 +1,17 @@
 import anthropic
 import os
 from dotenv import load_dotenv
+import streamlit as st
 
 load_dotenv()
 
-client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+# Works locally with .env and on Streamlit Cloud with secrets
+if "ANTHROPIC_API_KEY" in st.secrets:
+    api_key = st.secrets["ANTHROPIC_API_KEY"]
+else:
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+
+client = anthropic.Anthropic(api_key=api_key)
 
 # Model names for each tier
 OPUS = "claude-opus-4-5"
