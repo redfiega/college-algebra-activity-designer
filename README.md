@@ -17,6 +17,26 @@ specifically the rational functions unit.
 
 ---
 
+## How to Use
+
+### Generating an Activity
+1. Go to the **Generate Activity** tab
+2. Select a topic from the dropdown menu
+3. Optionally add special instructions or resource preferences
+4. Click **Generate Activity** and wait 20-30 seconds
+5. Review the generated activity and click **Save** to keep it
+
+### Evaluating an Activity
+1. Go to the **Evaluate Activity** tab
+2. Paste the full text of your activity into the text box
+3. Click **Evaluate Activity** and wait 30-60 seconds
+4. Review the feedback report with scores across five dimensions
+5. Use the required changes to improve your activity
+
+### Viewing Saved Activities
+1. Go to the **Saved Activities** tab
+2. Click **View** next to any saved activity to read it in full
+
 ## Directory Structure
 
 ```
@@ -231,10 +251,11 @@ The evaluation rubric in evaluation.md was not being read by the agents. A
 load_evaluation_rubric() function was added to agents.py so all evaluator agents
 now receive the scoring rubric in their system prompt.
 
-### Known Weaknesses
+### Known Limitations
 - The tool is currently optimized for rational functions only. Other college algebra
   topics would require updating the domain primer.
 - The accessibility dimension was added after initial deployment and may be less
   calibrated than the other four dimensions.
 - Timing estimates are approximate and may vary based on class size and student
   preparation level.
+- Saved activities are stored locally and do not persist on the deployed version. Important activities should be saved as files in the repository.
