@@ -117,6 +117,14 @@ with tab2:
         st.subheader("Evaluation Report")
         st.markdown(st.session_state["evaluation_report"])
 
+        if st.button("💾 Save This Activity"):
+            save_activity(
+                title="Evaluated Draft - " + str(len(get_all_activities()) + 1),
+                topic="Instructor Draft",
+                content=draft
+            )
+            st.success("Activity saved!")
+
 # ─────────────────────────────────────────
 # TAB 3 — SAVED ACTIVITIES
 # ─────────────────────────────────────────
