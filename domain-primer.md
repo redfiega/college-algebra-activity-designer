@@ -108,6 +108,19 @@ Mechanisms that work:
 - **Shared resource with split ownership:** One whiteboard, but each person owns one
   section that others cannot touch
 - **Consensus requirement:** Groups must agree on a single answer and justify it
+- **Organic discussion:** Brief phases (5 minutes or less) where students discuss
+  openly without assigned roles are valid and desirable. Examples include a quick
+  card sort discussion, a group agreement on an approach, or a short debate about
+  an answer. Do NOT penalize activities for including organic discussion phases.
+
+### Important Clarifications for Collaboration Evaluation:
+- Not every phase of an activity requires strict role assignment
+- A short organic discussion phase (≤8 minutes) at the start or between structured
+  phases is acceptable and does not weaken the collaboration structure
+- Evaluate the activity as a whole — if the majority of the activity has structural
+  interdependence, a brief organic discussion phase should not lower the score
+- Only penalize activities where the ENTIRE activity relies on voluntary discussion
+  with no structural mechanism at all
 
 ### Stretch Questions
 Students engage most deeply when given problems that:
