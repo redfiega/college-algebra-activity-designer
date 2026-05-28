@@ -176,3 +176,63 @@ An activity is **APPROVED** only when all five dimensions meet their passing thr
 - **1** — Failing, requires significant rework
 
 ---
+
+## Build Log
+
+### Project Design Decisions
+
+**Why three different AI models?**
+This project uses deliberate model routing to balance cost and quality:
+- **Claude Opus** is used for mathematical rigor evaluation and final synthesis
+  because these tasks require the deepest reasoning and domain expertise
+- **Claude Sonnet** is used for activity generation and resource mapping because
+  these tasks require creativity and content quality
+- **Claude Haiku** is used for collaboration auditing and timing estimation because
+  these are structured checks that do not require deep reasoning
+
+**Why multiple specialized agents instead of one?**
+Each agent has a narrow, well-defined job. This makes the system more reliable and
+easier to improve — if the collaboration feedback is too strict, we update only the
+collaboration agent's context without touching anything else.
+
+**Why a domain primer?**
+Smaller models have less built-in knowledge about college algebra pedagogy. The
+domain primer gives every agent the context it needs to make good decisions, including
+what content is in scope, what common student errors look like, and what makes a
+good collaboration mechanism.
+
+### Iterations and Refinements
+
+**Iteration 1 — Horizontal asymptote handling**
+The rigor evaluator initially flagged functions where the numerator degree exceeds
+the denominator degree as invalid. This was incorrect — these functions are valid
+and desirable for student learning. The domain primer was updated to explicitly
+allow these cases.
+
+**Iteration 2 — Linear simplification edge cases**
+The rigor evaluator flagged rational functions that simplify to linear functions as
+needing replacement. These are excellent edge cases for students. The domain primer
+was updated to explicitly allow them.
+
+**Iteration 3 — Organic discussion phases**
+The collaboration auditor was too strict, requiring defined roles for every phase
+of an activity. Brief organic discussion phases (5 minutes or less) are valid
+pedagogically. The domain primer was updated to allow them.
+
+**Iteration 4 — Passing threshold consistency**
+The reviewer agent was marking a timing score of 3 as NEEDS REVISION despite the
+passing threshold being 3 or higher. The passing thresholds were added explicitly
+to the reviewer agent's system prompt to fix this.
+
+**Iteration 5 — Evaluation rubric integration**
+The evaluation rubric in evaluation.md was not being read by the agents. A
+load_evaluation_rubric() function was added to agents.py so all evaluator agents
+now receive the scoring rubric in their system prompt.
+
+### Known Weaknesses
+- The tool is currently optimized for rational functions only. Other college algebra
+  topics would require updating the domain primer.
+- The accessibility dimension was added after initial deployment and may be less
+  calibrated than the other four dimensions.
+- Timing estimates are approximate and may vary based on class size and student
+  preparation level.
