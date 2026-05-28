@@ -50,7 +50,7 @@ scored 1–5, where 5 is excellent and 1 is failing.
 - **5:** Time breakdown is explicit, total is 25–45 minutes, each phase is realistic
 - **4:** Total is within range, one phase estimate seems slightly off
 - **3:** Total is within range but no phase breakdown given, or one phase is unrealistic
-- **2:** Total exceeds 30 minutes or is under 15 minutes
+- **2:** Total exceeds 45 minutes or is under 15 minutes
 - **1:** No timing information provided
 
 ### Resource Use (1–5)

@@ -3,6 +3,7 @@ from database import initialize_database, save_activity, get_all_activities, get
 from agents import (
     generate_activity,
     evaluate_rigor,
+    evaluate_accessibility,
     evaluate_collaboration,
     evaluate_timing,
     evaluate_resources,
@@ -101,11 +102,12 @@ with tab2:
             with st.spinner("Running evaluation... this may take 30-60 seconds."):
                 try:
                     rigor = evaluate_rigor(draft)
+                    accessibility = evaluate_accessibility(draft)
                     collaboration = evaluate_collaboration(draft)
                     timing = evaluate_timing(draft)
                     resources_eval = evaluate_resources(draft)
                     report = synthesize_feedback(
-                        draft, rigor, collaboration, timing, resources_eval
+                        draft, rigor, accessibility, collaboration, timing, resources_eval
                     )
                     st.session_state["evaluation_report"] = report
                 except Exception as e:

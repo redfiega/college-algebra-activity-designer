@@ -73,6 +73,26 @@ def evaluate_rigor(activity_text: str) -> str:
     )
     return message.content[0].text
 
+def evaluate_accessibility(activity_text: str) -> str:
+    """Evaluate accessibility using the Accessibility Evaluator agent (Haiku)."""
+    domain_primer = load_domain_primer()
+    rubric = load_evaluation_rubric()
+    prompt_template = load_prompt("evaluate-activity.txt")
+
+    prompt = prompt_template.replace("{ACTIVITY_TEXT}", activity_text)
+    prompt = prompt.replace("{DIMENSION}", "Accessibility")
+
+    message = client.messages.create(
+        model=HAIKU,
+        max_tokens=500,
+        system=(f"You are an expert in mathematics education accessibility. "
+                f"Here is your domain knowledge:\n\n{domain_primer}\n\n"
+                f"Here is your scoring rubric:\n\n{rubric}"),
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
+    return message.content[0].text
 
 def evaluate_collaboration(activity_text: str) -> str:
     """Evaluate structural collaboration using the Collaboration Auditor (Haiku)."""
@@ -136,7 +156,7 @@ def evaluate_resources(activity_text: str) -> str:
     return message.content[0].text
 
 
-def synthesize_feedback(activity_text: str, rigor: str, collaboration: str,
+def synthesize_feedback(activity_text: str, rigor: str, accessibility: str, collaboration: str,
                         timing: str, resources: str) -> str:
     """Synthesize all evaluations into a final report using the Reviewer (Opus)."""
     message = client.messages.create(
@@ -163,6 +183,9 @@ ORIGINAL ACTIVITY:
 
 RIGOR EVALUATION:
 {rigor}
+
+ACCESSIBILITY EVALUATION:
+{accessibility}
 
 COLLABORATION EVALUATION:
 {collaboration}
