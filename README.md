@@ -1,3 +1,5 @@
+🔗 **Live App:** [College Algebra Activity Designer](https://college-algebra-activity-designer.streamlit.app/)
+
 # College Algebra Activity Designer
 
 An AI-powered tool that helps a university mathematics instructor generate and evaluate
