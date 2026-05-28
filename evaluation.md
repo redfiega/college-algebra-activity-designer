@@ -47,7 +47,7 @@ scored 1–5, where 5 is excellent and 1 is failing.
 - **1:** Activity is designed as individual work with no collaborative element
 
 ### Timing (1–5)
-- **5:** Time breakdown is explicit, total is 25–35 minutes, each phase is realistic
+- **5:** Time breakdown is explicit, total is 25–45 minutes, each phase is realistic
 - **4:** Total is within range, one phase estimate seems slightly off
 - **3:** Total is within range but no phase breakdown given, or one phase is unrealistic
 - **2:** Total exceeds 30 minutes or is under 15 minutes
