@@ -6,9 +6,9 @@ import streamlit as st
 load_dotenv()
 
 # Works locally with .env and on Streamlit Cloud with secrets
-if "ANTHROPIC_API_KEY" in st.secrets:
+try:
     api_key = st.secrets["ANTHROPIC_API_KEY"]
-else:
+except Exception:
     api_key = os.getenv("ANTHROPIC_API_KEY")
 
 client = anthropic.Anthropic(api_key=api_key)
@@ -36,7 +36,79 @@ def load_evaluation_rubric() -> str:
     """Load the evaluation rubric for scoring guidance."""
     with open("evaluation.md", "r") as f:
         return f.read()
+    
+def evaluate_rigor_with_tool(activity_text: str) -> dict:
+    """Evaluate mathematical rigor using Claude's function calling (tool use).
+    Returns a structured, typed result instead of free text."""
+    domain_primer = load_domain_primer()
+    rubric = load_evaluation_rubric()
 
+    # Define the tool schema — this tells Claude exactly what structure to return
+    tools = [
+        {
+            "name": "submit_rigor_evaluation",
+            "description": "Submit a structured mathematical rigor evaluation for a college algebra activity.",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "score": {
+                        "type": "integer",
+                        "description": "Mathematical rigor score from 1 to 5",
+                        "minimum": 1,
+                        "maximum": 5
+                    },
+                    "verdict": {
+                        "type": "string",
+                        "enum": ["APPROVE", "REVISE"],
+                        "description": "Whether the activity passes or needs revision"
+                    },
+                    "findings": {
+                        "type": "string",
+                        "description": "Specific observations about mathematical correctness"
+                    },
+                    "required_changes": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "List of required changes if verdict is REVISE"
+                    },
+                    "mathematical_errors": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "List of any specific mathematical errors found"
+                    }
+                },
+                "required": ["score", "verdict", "findings", "required_changes",
+                             "mathematical_errors"]
+            }
+        }
+    ]
+
+    message = client.messages.create(
+        model=OPUS,
+        max_tokens=1000,
+        tools=tools,
+        tool_choice={"type": "any"},
+        system=(f"You are a rigorous mathematics education reviewer. "
+                f"Here is your domain knowledge:\n\n{domain_primer}\n\n"
+                f"Here is your scoring rubric:\n\n{rubric}"),
+        messages=[
+            {"role": "user", "content": f"Evaluate this activity for mathematical rigor:\n\n{activity_text}"}
+        ]
+    )
+
+    # Extract the structured tool result from the response
+    for block in message.content:
+        if block.type == "tool_use":
+            return block.input
+
+    # Fallback if tool use didn't trigger
+    return {
+        "score": 0,
+        "verdict": "REVISE",
+        "findings": "Evaluation failed to return structured result.",
+        "required_changes": ["Please try again."],
+        "mathematical_errors": []
+    }
 
 def generate_activity(topic: str, constraints: str, resources: str) -> str:
     """Generate a new activity using the Activity Generator agent (Sonnet).

@@ -3,6 +3,7 @@ from database import initialize_database, save_activity, get_all_activities, get
 from agents import (
     generate_activity,
     evaluate_rigor,
+    evaluate_rigor_with_tool,
     evaluate_accessibility,
     evaluate_collaboration,
     evaluate_timing,
@@ -72,7 +73,7 @@ with tab1:
         st.subheader("Your Generated Activity")
         st.markdown(st.session_state["generated_activity"])
 
-        if st.button("💾 Save This Activity"):
+        if st.button("💾 Save This Activity", key="save_generated"):
             lines = st.session_state["generated_activity"].split("\n")
             title = lines[0].replace("#", "").strip()
             save_activity(
@@ -102,6 +103,8 @@ with tab2:
             with st.spinner("Running evaluation... this may take 30-60 seconds."):
                 try:
                     rigor = evaluate_rigor(draft)
+                    rigor_tool_result = evaluate_rigor_with_tool(draft)
+                    st.session_state["rigor_tool_result"] = rigor_tool_result
                     accessibility = evaluate_accessibility(draft)
                     collaboration = evaluate_collaboration(draft)
                     timing = evaluate_timing(draft)
@@ -117,14 +120,28 @@ with tab2:
         st.subheader("Evaluation Report")
         st.markdown(st.session_state["evaluation_report"])
 
-        if st.button("💾 Save This Activity"):
+        # Show structured tool result for rigor
+        if "rigor_tool_result" in st.session_state:
+            st.subheader("📊 Structured Rigor Score (Function Calling)")
+            result = st.session_state["rigor_tool_result"]
+            col1, col2 = st.columns(2)
+            with col1:
+                st.metric("Rigor Score", f"{result['score']} / 5")
+            with col2:
+                st.metric("Verdict", result["verdict"])
+            st.write("**Findings:**", result["findings"])
+            if result["mathematical_errors"]:
+                st.write("**Mathematical Errors Found:**")
+                for error in result["mathematical_errors"]:
+                    st.write(f"- {error}")
+
+        if st.button("💾 Save This Activity", key="save_evaluated"):
             save_activity(
                 title="Evaluated Draft - " + str(len(get_all_activities()) + 1),
                 topic="Instructor Draft",
                 content=draft
             )
             st.success("Activity saved!")
-
 # ─────────────────────────────────────────
 # TAB 3 — SAVED ACTIVITIES
 # ─────────────────────────────────────────
