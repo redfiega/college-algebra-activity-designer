@@ -98,3 +98,18 @@
 - Scores should now be more consistent and aligned with defined criteria
 
 ---
+
+## Session 5 — Instructor Feedback Revisions
+
+**Date:** 2026-06-03
+
+**Feedback received:**
+- App was asleep on deployment — woken and documented in README
+- Architecture described a revision loop that wasn't in the code — built it
+- No function calling present — needed at least one tool with typed output
+
+**Fixes applied:**
+- Added sleep note to Known Limitations in README
+- Built revision loop in generate_activity — fails back to generator up to 2 times
+- Wrapped evaluate_rigor as a real tool using Claude function calling
+- Structured rigor result now displays separately in the Evaluate tab
