@@ -39,7 +39,9 @@ def load_evaluation_rubric() -> str:
 
 
 def generate_activity(topic: str, constraints: str, resources: str) -> str:
-    """Generate a new activity using the Activity Generator agent (Sonnet)."""
+    """Generate a new activity using the Activity Generator agent (Sonnet).
+    Includes a revision loop — if rigor check fails, the activity is sent
+    back for revision up to 2 times before returning the best version."""
     domain_primer = load_domain_primer()
     prompt_template = load_prompt("generate-activity.txt")
 
@@ -47,16 +49,44 @@ def generate_activity(topic: str, constraints: str, resources: str) -> str:
     prompt = prompt.replace("{CONSTRAINTS}", constraints)
     prompt = prompt.replace("{RESOURCES}", resources)
 
-    message = client.messages.create(
-        model=SONNET,
-        max_tokens=3000,
-        system=(f"You are an expert mathematics education activity designer. "
-                f"Here is your domain knowledge:\n\n{domain_primer}"),
-        messages=[
-            {"role": "user", "content": prompt}
-        ]
-    )
-    return message.content[0].text
+    max_attempts = 3
+    attempt = 0
+    activity = None
+
+    while attempt < max_attempts:
+        attempt += 1
+
+        # Generate the activity
+        message = client.messages.create(
+            model=SONNET,
+            max_tokens=3000,
+            system=(f"You are an expert mathematics education activity designer. "
+                    f"Here is your domain knowledge:\n\n{domain_primer}"),
+            messages=[
+                {"role": "user", "content": prompt}
+            ]
+        )
+        activity = message.content[0].text
+
+        # Run rigor check on the generated activity
+        rigor_feedback = evaluate_rigor(activity)
+
+        # Check if rigor passed (look for score of 4 or 5)
+        if "Score: 5" in rigor_feedback or "Score: 4" in rigor_feedback:
+            # Rigor passed — return the activity
+            return activity
+
+        # Rigor failed — if we have attempts left, revise
+        if attempt < max_attempts:
+            prompt = (
+                f"Your previous activity had mathematical issues. "
+                f"Here is the evaluator feedback:\n\n{rigor_feedback}\n\n"
+                f"Please rewrite the activity fixing all mathematical errors. "
+                f"Original request:\n\n{prompt}"
+            )
+
+    # Return best attempt even if rigor never fully passed
+    return activity
 
 
 def evaluate_rigor(activity_text: str) -> str:

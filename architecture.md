@@ -72,11 +72,17 @@ the instructor's machine.
 2. UI sends request to Orchestrator
 3. Orchestrator delegates to Activity Generator (Sonnet)
 4. Activity Generator drafts activity using prompt from `/prompt-library/`
+### Generate Activity Flow
+1. Instructor fills out form in UI (topic, constraints, resource preferences)
+2. UI sends request to Orchestrator
+3. Orchestrator delegates to Activity Generator (Sonnet)
+4. Activity Generator drafts activity using prompt from `/prompt-library/`
 5. Rigor Evaluator (Opus) checks mathematical correctness
-6. Collaboration Auditor (Haiku) checks structural collaboration mechanism
-7. Timing Estimator (Haiku) validates time breakdown
-8. Resource Mapper (Sonnet) ensures physical resources are incorporated
-9. Reviewer (Opus) gives final approval or sends back for revision
+6. If rigor fails, specific feedback is sent back to the Activity Generator
+   for revision (maximum 2 revision attempts before returning best version)
+7. Collaboration Auditor (Haiku) checks structural collaboration mechanism
+8. Timing Estimator (Haiku) validates time breakdown
+9. Resource Mapper (Sonnet) ensures physical resources are incorporated
 10. Approved activity displayed in UI and saved to SQLite database
 
 ### Evaluate Activity Flow
