@@ -259,3 +259,6 @@ now receive the scoring rubric in their system prompt.
 - Timing estimates are approximate and may vary based on class size and student
   preparation level.
 - Saved activities are stored locally and do not persist on the deployed version. Important activities should be saved as files in the repository.
+- **App sleep:** The deployed app on Streamlit Community Cloud may go to sleep
+  after periods of inactivity. If the app does not load immediately, wait 
+  30-60 seconds for it to wake up and then refresh the page.
